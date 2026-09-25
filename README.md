@@ -13,7 +13,7 @@ Add it as a dependency to your Gradle project:
 
 ```kotlin
 dependencies {
-    implementation("dev.aoqia.leaf:leaf-language-kotlin:unspecified+kotlin.2.4.20.local+kotlin.2.4.20")
+    implementation("dev.aoqia.leaf:leaf-language-kotlin:1.14.1+kotlin.2.4.20")
 }
 ```
 
@@ -34,7 +34,7 @@ Remember to the add a dependency entry to your `leaf.mod.json` file:
         ]
     },
     "depends": {
-        "leaf-language-kotlin": ">=unspecified+kotlin.2.4.20.local+kotlin.2.4.20"
+        "leaf-language-kotlin": ">=1.14.1+kotlin.2.4.20"
     }
 }
 ```

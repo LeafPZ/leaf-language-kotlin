@@ -25,6 +25,7 @@ apply(plugin = "org.jetbrains.kotlin.jvm")
 group = project.group!!
 
 val env: Map<String, String> = System.getenv()
+val modVersion = project.property("modVersion")
 val libraryVersionsFile = "generated/library_versions.json"
 val kotlinVersionFile = "generated/kotlin_version.txt"
 
@@ -58,7 +59,7 @@ libVersions.forEach { (k, v) ->
     println("\t$k:$v")
 }
 
-version = "${project.version}+kotlin.${kotlinVersionText}" + (if (env["GITHUB_ACTIONS"] != null) "" else ".local")
+version = "${modVersion}+kotlin.${kotlinVersionText}" + (if (env["GITHUB_ACTIONS"] != null) "" else ".local")
 
 loom {
     mods {
@@ -156,7 +157,7 @@ tasks.register<Copy>("processMDTemplates") {
     doNotTrackState("Writes generated docs directly into the project root, which overlaps with .gradle")
 
     val template = mutableMapOf<String, Any>(
-        "MOD_VERSION" to "${project.version}+kotlin.${kotlinVersionText}",
+        "MOD_VERSION" to "${modVersion}+kotlin.${kotlinVersionText}",
         "LOADER_VERSION" to libs.versions.leaf.loader.get(),
     )
     libraries.forEach {
