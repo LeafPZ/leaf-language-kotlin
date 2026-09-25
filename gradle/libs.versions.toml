@@ -1,0 +1,17 @@
+[versions]
+
+leaf-loader = "1.6.1"
+leaf-loom = "0.7.3"
+zomboid = "42.20.4"
+spotless = "6.19.0"
+
+[libraries]
+
+leaf-loader = { module = "dev.aoqia.leaf:loader", version.ref = "leaf-loader" }
+leaf-loader-junit = { module = "dev.aoqia.leaf:loader-junit", version.ref = "leaf-loader" }
+zomboid = { module = "com.theindiestone:zomboid", version.ref = "zomboid" }
+
+[plugins]
+
+leaf-loom = { id = "dev.aoqia.leaf.loom", version.ref = "leaf-loom" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
