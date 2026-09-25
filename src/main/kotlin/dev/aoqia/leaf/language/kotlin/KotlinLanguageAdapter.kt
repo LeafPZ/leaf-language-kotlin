@@ -12,15 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * This file has been modified from the original Fabric Language Kotlin
+ * project (https://github.com/FabricMC/fabric-language-kotlin) as part
+ * of the Leaf Language Kotlin project.
+ *
+ * Modifications Copyright 2026 LeafPZ, licensed under the Apache License, Version 2.0.
  */
 
-package net.fabricmc.language.kotlin
+package dev.aoqia.leaf.language.kotlin
 
-import net.fabricmc.loader.language.LanguageAdapter
+import dev.aoqia.leaf.loader.language.LanguageAdapter
 import org.apache.logging.log4j.LogManager
 
-private val Logger = LogManager.getLogger("Fabric-Language-Kotlin")
+private val Logger = LogManager.getLogger("Leaf-Language-Kotlin")
 
+@Deprecated("Use KotlinAdapter instead")
 class KotlinLanguageAdapter : LanguageAdapter {
     override fun createInstance(clazz: Class<*>, options: LanguageAdapter.Options): Any {
         Logger.warn("$clazz is using a deprecated language adapter, support for this will be dropped in a future update. Update $clazz.")

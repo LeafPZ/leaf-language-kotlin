@@ -12,13 +12,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * This file has been modified from the original Fabric Language Kotlin
+ * project (https://github.com/FabricMC/fabric-language-kotlin) as part
+ * of the Leaf Language Kotlin project.
+ *
+ * Modifications Copyright 2026 LeafPZ, licensed under the Apache License, Version 2.0.
  */
 
-package net.fabricmc.language.kotlin
+package dev.aoqia.leaf.language.kotlin
 
-import net.fabricmc.loader.api.LanguageAdapter
-import net.fabricmc.loader.api.LanguageAdapterException
-import net.fabricmc.loader.api.ModContainer
+import dev.aoqia.leaf.loader.api.LanguageAdapter
+import dev.aoqia.leaf.loader.api.LanguageAdapterException
+import dev.aoqia.leaf.loader.api.ModContainer
 import java.lang.invoke.MethodHandleProxies
 import java.lang.invoke.MethodHandles
 import kotlin.reflect.full.createInstance
@@ -36,6 +42,7 @@ open class KotlinAdapter : LanguageAdapter {
             throw LanguageAdapterException("Invalid handle format: $value")
         }
 
+        @Suppress("UNCHECKED_CAST")
         val c: Class<Any> = try {
             Class.forName(methodSplit[0]) as Class<Any>
         } catch (e: ClassNotFoundException) {
@@ -72,6 +79,7 @@ open class KotlinAdapter : LanguageAdapter {
                 k.declaredMemberProperties.find {
                     it.name == methodSplit[1]
                 }?.let { field ->
+                    @Suppress("UNCHECKED_CAST")
                     try {
                         val fType = field.returnType
 
@@ -84,7 +92,7 @@ open class KotlinAdapter : LanguageAdapter {
                         }
 
                         return field.get(instance) as T
-                    } catch (e: NoSuchFieldException) {
+                    } catch (_: NoSuchFieldException) {
                         // ignore
                     } catch (e: IllegalAccessException) {
                         throw LanguageAdapterException("Field $value cannot be accessed!", e)

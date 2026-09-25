@@ -12,13 +12,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * This file has been modified from the original Fabric Language Kotlin
+ * project (https://github.com/FabricMC/fabric-language-kotlin) as part
+ * of the Leaf Language Kotlin project.
+ *
+ * Modifications Copyright 2026 LeafPZ, licensed under the Apache License, Version 2.0.
  */
 
-package net.fabricmc.language.kotlin.test
+package dev.aoqia.leaf.language.kotlin.test
 
-import net.fabricmc.api.ModInitializer
-import net.fabricmc.language.kotlin.KotlinAdapter
-import net.fabricmc.loader.api.FabricLoader
+import dev.aoqia.leaf.api.ModInitializer
+import dev.aoqia.leaf.language.kotlin.KotlinAdapter
+import dev.aoqia.leaf.loader.api.LeafLoader
 import kotlin.test.Test
 
 class KotlinAdapterTest {
@@ -63,12 +69,13 @@ class KotlinAdapterTest {
     }
 
     private fun testEntrypoint(value: String) {
-        FabricLoader.getInstance().objectShare.remove("fabric-language-kotlin:test")
+        LeafLoader.getInstance().objectShare.remove("leaf-language-kotlin:test")
 
-        val modContainer = FabricLoader.getInstance().getModContainer("fabric-language-kotlin").get()
-        val entrypoint = KotlinAdapter().create(modContainer, value, ModInitializer::class.java)
+        val modContainer = LeafLoader.getInstance().getModContainer("leaf-language-kotlin").get()
+        val entrypoint = KotlinAdapter()
+            .create(modContainer, value, ModInitializer::class.java)
         entrypoint.onInitialize()
 
-        assert(FabricLoader.getInstance().objectShare.get("fabric-language-kotlin:test") == "true")
+        assert(LeafLoader.getInstance().objectShare.get("leaf-language-kotlin:test") == "true")
     }
 }
