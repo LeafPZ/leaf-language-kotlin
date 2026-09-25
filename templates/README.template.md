@@ -1,10 +1,9 @@
-# fabric-language-kotlin
+# leaf-language-kotlin
 
-[![maven-badge](https://img.shields.io/maven-metadata/v/https/maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/maven-metadata.xml.svg?style=flat-square&logo=Kotlin&label=Maven)](https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin)
-[![modrinth-badge](https://img.shields.io/modrinth/dt/fabric-language-kotlin?label=Modrinth&logo=Modrinth&style=flat-square)](https://modrinth.com/mod/fabric-language-kotlin/versions)
-[![curseforge-badge](https://img.shields.io/curseforge/dt/308769?style=flat-square&logo=curseforge&label=CurseForge)](https://minecraft.curseforge.com/projects/308769/files)
+![License](https://img.shields.io/github/license/Electrisoma/leaf-language-kotlin?label=License)
+(needs maven)
 
-Fabric language module for [Kotlin](https://kotlinlang.org/). Adds support for Kotlin exclusive entrypoints and bundles the Kotlin Stdlib as well as common kotlinx libraries.
+Leaf language module for [Kotlin](https://kotlinlang.org/). Adds support for Kotlin exclusive entrypoints and bundles the Kotlin Stdlib as well as common kotlinx libraries.
 
 ## Usage
 
@@ -14,16 +13,14 @@ Add it as a dependency to your Gradle project:
 
 ```kotlin
 dependencies {
-    implementation("net.fabricmc:fabric-language-kotlin:${MOD_VERSION}")
-    // Or, for legacy versions of Loom:
-    // modImplementation("net.fabricmc:fabric-language-kotlin:${MOD_VERSION}")
+    implementation("dev.aoqia.leaf:leaf-language-kotlin:${MOD_VERSION}")
 }
 ```
 
 ### Adapter
 
-Use the `kotlin` adapter for your mod by setting the `adapter` property in the `fabric.mod.json` file. 
-Remember to the add a dependency entry to your `fabric.mod.json` file:
+Use the `kotlin` adapter for your mod by setting the `adapter` property in the `leaf.mod.json` file.
+Remember to the add a dependency entry to your `leaf.mod.json` file:
 
 ```json
 {
@@ -37,7 +34,7 @@ Remember to the add a dependency entry to your `fabric.mod.json` file:
         ]
     },
     "depends": {
-        "fabric-language-kotlin": ">=${MOD_VERSION}"
+        "leaf-language-kotlin": ">=${MOD_VERSION}"
     }
 }
 ```
@@ -69,6 +66,7 @@ Do not forget to set the `schemaVersion` to `1` or it will fall back to schema `
 
 ```kotlin
 package mymod
+
 class MyMod : ModInitializer {
     override fun onInitialize() {
         TODO()
@@ -93,6 +91,7 @@ class MyMod : ModInitializer {
 
 ```kotlin
 package mymod
+
 object MyMod : ModInitializer {
     override fun onInitialize() {
         TODO()
@@ -112,6 +111,7 @@ object MyMod : ModInitializer {
 
 ```kotlin
 package mymod
+
 object MyMod  {
     fun init() {
         TODO()
@@ -131,6 +131,7 @@ object MyMod  {
 
 ```kotlin
 package mymod
+
 object MyMod  {
     val initializer = ModInitializer {
         TODO()
@@ -153,6 +154,7 @@ object MyMod  {
 
 ```kotlin
 package mymod
+
 class MyMod {
     companion object : ModInitializer {
         override fun onInitialize() {
@@ -174,6 +176,7 @@ class MyMod {
 
 ```kotlin
 package mymod
+
 class MyMod  {
     companion object {
         fun init() {
@@ -195,6 +198,7 @@ class MyMod  {
 
 ```kotlin
 package mymod
+
 class MyMod  {
     companion object {
         val initializer = ModInitializer {
@@ -213,8 +217,8 @@ class MyMod  {
 
 ```json
 {
-    "adapter": "kotlin",
-    "value": "mymod.MyModKt::init"
+  "adapter": "kotlin",
+  "value": "mymod.MyModKt::init"
 }
 ```
 
@@ -254,7 +258,8 @@ Companion objects can be used by appending `\$Companion` to the class.
 
 ## Available Versions
 
-https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/
+(needs maven)
+~~https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/~~
 
 ## Updating README
 
