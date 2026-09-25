@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "leaf-language-kotlin",
+  "version": "$version",
+  "name": "Leaf Language Kotlin",
+  "description": "Leaf language module for Kotlin.",
+  "authors": [
+    "FabricMC",
+    "LeafPZ"
+  ],
+  "contact": {
+    "sources": "https://github.com/LeafPZ/leaf-language-kotlin",
+    "issues": "https://github.com/LeafPZ/leaf-language-kotlin/issues"
+  },
+  "languageAdapters": {
+    "kotlin": "dev.aoqia.leaf.language.kotlin.KotlinAdapter"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/leaf-language-kotlin/icon500.png",
+  "depends": {
+    "leafloader": ">=1.6.1"
+  }
+}
