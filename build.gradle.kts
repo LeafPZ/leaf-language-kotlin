@@ -150,18 +150,18 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 tasks.withType<ProcessResources> {
+    inputs.property("id", "leaf-${project.name}")
     inputs.property("version", "${version}+kotlin.${kotlinVersionText}")
     inputs.property("url", projectUrl)
 
-    doLast {
-        filesMatching("leaf.mod.json") {
-            expand(
-                mapOf(
-                    "version" to "${version}+kotlin.${kotlinVersionText}",
-                    "url" to projectUrl.get(),
-                )
+    filesMatching("leaf.mod.json") {
+        expand(
+            mapOf(
+                "id" to "leaf-${project.name}",
+                "version" to "${version}+kotlin.${kotlinVersionText}",
+                "url" to projectUrl.get(),
             )
-        }
+        )
     }
 }
 
@@ -177,11 +177,15 @@ val jarTask = tasks.named<Jar>("jar") {
 }
 
 val processTemplatesTask = tasks.register<Copy>("processTemplates") {
-    group = "documentation"
     doNotTrackState("Writes generated docs directly into the project root, which overlaps with .gradle")
 
+    group = "documentation"
+    description = "Processes templates under the templates directory"
+
     val template = mutableMapOf(
-        "MOD_VERSION" to version,
+        "MOD_ID" to "leaf-${project.name}",
+        "PROJECT_NAME" to project.name,
+        "MOD_VERSION" to baseVersion,
         "LOADER_VERSION" to libs.versions.leaf.loader.get(),
     )
     libraries.forEach {
@@ -207,10 +211,10 @@ val processTemplatesTask = tasks.register<Copy>("processTemplates") {
 val updateVersionsTask = tasks.register("updateVersions") {
     group = "update"
 
-    dependsOn(updateLibraryVersions)
+    dependsOn(updateLibraryVersionsTask)
 }
 
-val updateLibraryVersions = tasks.register("updateLibraryVersions") {
+val updateLibraryVersionsTask = tasks.register("updateLibraryVersions") {
     group = "update"
 
     doFirst {

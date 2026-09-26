@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "leaf-language-kotlin",
+  "id": "$id",
   "version": "$version",
   "name": "Leaf Language Kotlin",
   "description": "Leaf language module for Kotlin.",
@@ -16,7 +16,7 @@
     "kotlin": "dev.aoqia.leaf.language.kotlin.KotlinAdapter"
   },
   "license": "Apache-2.0",
-  "icon": "assets/leaf-language-kotlin/icon500.png",
+  "icon": "assets/$id/icon500.png",
   "depends": {
     "leafloader": ">=1.6.1"
   }
