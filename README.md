@@ -1,9 +1,21 @@
-# leaf-language-kotlin
+<div align="center">
+
+<b>
+    A language module for
+    <a href="https://kotlinlang.org/">
+        <img src="src/main/resources/assets/leaf-language-kotlin/icon500.png" width="36"> Kotlin
+    </a>
+</b>
 
 ![License](https://img.shields.io/github/license/LeafPZ/leaf-language-kotlin?label=License)
-(needs maven)
+![Gradle version](https://img.shields.io/badge/Gradle-9.7.1-teal?logo=gradle)
+![Build status](https://github.com/LeafPZ/leaf-language-kotlin/actions/workflows/build.yml/badge.svg?branch=main&label=build)
+![Code Size](https://img.shields.io/github/languages/code-size/LeafPZ/leaf-language-kotlin?label=Code%20Size)
+![Maven status](https://img.shields.io/website?url=https%3A%2F%2Fmaven.aoqia.dev%2F&label=Maven)
 
-Leaf language module for [Kotlin](https://kotlinlang.org/). Adds support for Kotlin exclusive entrypoints and bundles the Kotlin Stdlib as well as common kotlinx libraries.
+</div>
+
+Adds support for Kotlin exclusive entrypoints and bundles the Kotlin Stdlib as well as common kotlinx libraries.
 
 ## Usage
 
@@ -13,18 +25,18 @@ Add it as a dependency to your Gradle project:
 
 ```kotlin
 dependencies {
-    implementation("dev.aoqia.leaf:leaf-language-kotlin:1.14.1+kotlin.2.4.20")
+    implementation("dev.aoqia.leaf:language-kotlin:1.0.0")
 }
 ```
 
 ### Adapter
 
-Use the `kotlin` adapter for your mod by setting the `adapter` property in the `leaf.mod.json` file.
-Remember to the add a dependency entry to your `leaf.mod.json` file:
+Use the `kotlin` adapter for your mod by setting the `adapter` property in the `leaf.mod.json` file. Remember to the add
+a dependency entry to your `leaf.mod.json` file:
 
 ```json
 {
-    "schemaVersion":  1, 
+    "schemaVersion": 1,
     "entrypoints": {
         "main": [
             {
@@ -34,16 +46,18 @@ Remember to the add a dependency entry to your `leaf.mod.json` file:
         ]
     },
     "depends": {
-        "leaf-language-kotlin": ">=1.14.1+kotlin.2.4.20"
+        "leaf-language-kotlin": ">=1.0.0"
     }
 }
 ```
 
 For more info reference the [fabric.mod.json documentation](https://fabricmc.net/wiki/documentation:fabric_mod_json).
 
-Do not forget to set the `schemaVersion` to `1` or it will fall back to schema `0` and will not attempt to load entrypoints.
+> [!NOTE]
+> Don't forget to set the `schemaVersion` to `1` or it will fall back to schema `0` and will not attempt to load
+> entrypoints.
 
-### Entrypoint samples
+## Samples
 
 <table>
 <tr>
@@ -112,7 +126,7 @@ object MyMod : ModInitializer {
 ```kotlin
 package mymod
 
-object MyMod  {
+object MyMod {
     fun init() {
         TODO()
     }
@@ -132,7 +146,7 @@ object MyMod  {
 ```kotlin
 package mymod
 
-object MyMod  {
+object MyMod {
     val initializer = ModInitializer {
         TODO()
     }
@@ -177,7 +191,7 @@ class MyMod {
 ```kotlin
 package mymod
 
-class MyMod  {
+class MyMod {
     companion object {
         fun init() {
             TODO()
@@ -199,7 +213,7 @@ class MyMod  {
 ```kotlin
 package mymod
 
-class MyMod  {
+class MyMod {
     companion object {
         val initializer = ModInitializer {
             TODO()
@@ -223,6 +237,7 @@ class MyMod  {
 ```
 
 File: `src/main/kotlin/mymod/MyMod.kt`
+
 ```kotlin
 package mymod
 
@@ -236,8 +251,8 @@ fun init() {
 </tr>
 </table>
 
-Companion objects can be used by appending `$Companion` to the class.
-**Take care of `processResources` there**, it might try to expand it, in that case escape it.
+Companion objects can be used by appending `$Companion` to the class. **Take care of `processResources` there**, it
+might try to expand it, in that case escape it.
 
 ## Bundled libraries
 
@@ -256,12 +271,11 @@ Companion objects can be used by appending `$Companion` to the class.
 - **`kotlinx-io-core`** 0.9.1 [API docs](https://kotlin.github.io/kotlinx-io/kotlinx-io-core/index.html), [GitHub](https://github.com/Kotlin/kotlinx-io)
 - **`kotlinx-io-bytestring`** 0.9.1 [API docs](https://kotlin.github.io/kotlinx-io/kotlinx-io-bytestring/index.html)
 
-## Available Versions
-
-(needs maven)
-~~https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/~~
-
 ## Updating README
 
 - Update the readme in `templates/README.template.md`.
-- Run `./gradlew processTemplates`.
+- Run the `processTemplates` task.
+
+### Special Thanks
+
+- The entire [FabricMC team](https://github.com/FabricMC/)
