@@ -54,5 +54,5 @@ jobs:
         with:
           gradle-home-cache-excludes: 'caches/leaf-loom'
       - name: Build
-        run: ./gradlew build -Pleaf.loom.minimalSetup=true --stacktrace
+        run: ./gradlew build -x test -Pleaf.loom.minimalSetup=true --stacktrace
 

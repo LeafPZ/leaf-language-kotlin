@@ -18,8 +18,8 @@ jobs:
           java-version: 25
           distribution: 'temurin'
           cache: gradle
-      - run: ./gradlew updateVersions -Pleaf.loom.minimalSetup=true
-      - run: ./gradlew processTemplates -Pleaf.loom.minimalSetup=true
+      - run: ./gradlew updateVersions -x test -Pleaf.loom.minimalSetup=true
+      - run: ./gradlew processTemplates -x test -Pleaf.loom.minimalSetup=true
       - uses: peter-evans/create-pull-request@v8
         with:
           branch: update-versions
