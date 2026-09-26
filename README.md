@@ -264,4 +264,4 @@ Companion objects can be used by appending `$Companion` to the class.
 ## Updating README
 
 - Update the readme in `templates/README.template.md`.
-- Run `./gradlew processMDTemplates`.
+- Run `./gradlew processTemplates`.

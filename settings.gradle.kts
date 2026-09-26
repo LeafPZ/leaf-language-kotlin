@@ -4,11 +4,25 @@ pluginManagement {
 			name = "Fabric"
 			url = uri("https://maven.fabricmc.net/")
 		}
-		maven("https://maven.aoqia.dev/releases")
-		maven("https://maven.aoqia.dev/snapshots")
+        maven {
+            name = "aoqia"
+            url = uri("https://maven.aoqia.dev/releases")
+
+            mavenContent {
+                releasesOnly()
+            }
+        }
+        maven {
+            name = "aoqia-snapshots"
+            url = uri("https://maven.aoqia.dev/snapshots")
+
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
 		mavenCentral()
 		gradlePluginPortal()
 	}
 }
 
-rootProject.name = "leaf-language-kotlin"
+rootProject.name = providers.gradleProperty("name").get()

@@ -9,8 +9,8 @@
     "LeafPZ"
   ],
   "contact": {
-    "sources": "https://github.com/LeafPZ/leaf-language-kotlin",
-    "issues": "https://github.com/LeafPZ/leaf-language-kotlin/issues"
+    "sources": "$url",
+    "issues": "$url/issues"
   },
   "languageAdapters": {
     "kotlin": "dev.aoqia.leaf.language.kotlin.KotlinAdapter"

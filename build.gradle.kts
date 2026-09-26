@@ -1,11 +1,23 @@
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+import groovy.xml.XmlSlurper
+import groovy.xml.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.NodeChildren
 import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 import kotlin.math.max
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.FileNotFoundException
+
+val isCiBuild = providers.environmentVariable("CI").map { it.toBoolean() }.orElse(false).get()
+val isSnapshot = providers.gradleProperty("isSnapshot").map { it.toBoolean() }.orElse(false).get()
+
+val groupUrl = rootProject.group.toString().replace(".", "/")
+
+val baseVersion = project.version.toString()
+project.version = if (isSnapshot) "$baseVersion-SNAPSHOT" else if (!isCiBuild) "$baseVersion.local" else baseVersion
 
 buildscript {
     dependencies {
@@ -17,15 +29,13 @@ buildscript {
 plugins {
     alias(libs.plugins.leaf.loom)
     alias(libs.plugins.spotless)
-    id("maven-publish")
+
+    `maven-publish`
+    signing
 }
 
 apply(plugin = "org.jetbrains.kotlin.jvm")
 
-group = project.group!!
-
-val env: Map<String, String> = System.getenv()
-val modVersion = project.property("modVersion")
 val libraryVersionsFile = "generated/library_versions.json"
 val kotlinVersionFile = "generated/kotlin_version.txt"
 
@@ -59,8 +69,6 @@ libVersions.forEach { (k, v) ->
     println("\t$k:$v")
 }
 
-version = "${modVersion}+kotlin.${kotlinVersionText}" + (if (env["GITHUB_ACTIONS"] != null) "" else ".local")
-
 loom {
     mods {
         register("llk") {
@@ -69,12 +77,13 @@ loom {
     }
 }
 
-val includeAndExpose: Configuration = configurations.create("includeAndExpose")
+val includeAndExpose = configurations.create("includeAndExpose")
 
 configurations {
     api {
         extendsFrom(includeAndExpose)
     }
+
     include {
         extendsFrom(includeAndExpose)
     }
@@ -98,8 +107,9 @@ repositories {
 dependencies {
     zomboid(libs.zomboid)
     implementation(libs.leaf.loader)
-    testImplementation(libs.leaf.loader)
-    //testImplementation(libs.leaf.loader.junit) // junit out-of-order :(
+    // TODO(leaf): Uncomment when loader junit is working
+    // testImplementation(libs.leaf.loader.junit)
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 
     if (hasMissingLibVersion) {
@@ -108,24 +118,6 @@ dependencies {
         libraries.forEach {
             includeAndExpose("$it:${libVersions[it]}")
         }
-    }
-}
-
-tasks.withType<ProcessResources> {
-    inputs.property("version", project.version.toString())
-
-    filesMatching("leaf.mod.json") {
-        expand(mapOf("version" to project.version.toString()))
-    }
-}
-
-tasks.withType<JavaCompile>().configureEach {
-    options.release.set(8)
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_1_8)
     }
 }
 
@@ -141,23 +133,48 @@ spotless {
     }
 }
 
-tasks.named<Jar>("jar") {
+tasks.test {
+    useJUnitPlatform()
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(8)
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
+    }
+}
+
+tasks.withType<ProcessResources> {
+    inputs.property("version", project.version.toString())
+
+    filesMatching("leaf.mod.json") {
+        expand(mapOf(
+            "version" to "${version}+kotlin.${kotlinVersionText}",
+            "url" to property("url").toString(),
+        ))
+    }
+}
+
+tasks.withType<Sign>().configureEach {
+    enabled = isCiBuild && !isSnapshot
+}
+
+val jarTask = tasks.named<Jar>("jar") {
     val archivesName = project.base.archivesName.get()
     from("LICENSE") {
         rename { "${it}_${archivesName}" }
     }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
-tasks.register<Copy>("processMDTemplates") {
+val processTemplatesTask = tasks.register<Copy>("processTemplates") {
     group = "documentation"
     doNotTrackState("Writes generated docs directly into the project root, which overlaps with .gradle")
 
-    val template = mutableMapOf<String, Any>(
-        "MOD_VERSION" to "${modVersion}+kotlin.${kotlinVersionText}",
+    val template = mutableMapOf(
+        "MOD_VERSION" to version,
         "LOADER_VERSION" to libs.versions.leaf.loader.get(),
     )
     libraries.forEach {
@@ -180,45 +197,15 @@ tasks.register<Copy>("processMDTemplates") {
     destinationDir = rootDir
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            groupId = project.group.toString()
-            artifactId = project.name.lowercase(Locale.ROOT)
-            version = project.version.toString()
-
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        mavenLocal()
-        if (env["MAVEN_URL"] != null) {
-            maven {
-                url = uri(env["MAVEN_URL"]!!)
-                credentials {
-                    username = env["MAVEN_USERNAME"]
-                    password = env["MAVEN_PASSWORD"]
-                }
-            }
-        }
-    }
-}
-
-// needs a maven page
-// A task to ensure that the version being released has not already been released.
-val checkVersion: TaskProvider<Task> = tasks.register("checkVersion") {
-    doFirst {
-//        val xml = URI("https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/maven-metadata.xml").toURL().readText()
-//        val versions = Regex("<version>(.+?)</version>").findAll(xml).map { it.groupValues[1] }.toList()
-//        if (versions.contains(project.version.toString())) {
-//            throw RuntimeException("${project.version} has already been released!")
-//        }
-    }
-}
-
-val updateLibraryVersions: TaskProvider<Task> = tasks.register("updateLibraryVersions") {
+val updateVersionsTask = tasks.register("updateVersions") {
     group = "update"
+
+    dependsOn(updateLibraryVersions)
+}
+
+val updateLibraryVersions = tasks.register("updateLibraryVersions") {
+    group = "update"
+
     doFirst {
         val output = mutableMapOf<String, String>()
         val versionRegex = Regex("<version>(.+?)</version>")
@@ -254,9 +241,87 @@ val updateLibraryVersions: TaskProvider<Task> = tasks.register("updateLibraryVer
     }
 }
 
-val updateVersions: TaskProvider<Task> = tasks.register("updateVersions") {
-    group = "update"
-    dependsOn(updateLibraryVersions)
+val checkVersion = tasks.register("checkVersion") {
+    description = "Ensures that the version being released has not already been released"
+
+    doFirst {
+        val xml = try {
+            URI.create("https://maven.aoqia.dev/${if (isSnapshot) "snapshots" else "releases"}/${
+                rootProject.group.toString().replace(".", "/")
+            }/${rootProject.name}/maven-metadata.xml").toURL().readText()
+        } catch (_: FileNotFoundException) {
+            null
+        }
+
+        if (xml != null) {
+            val metadata = XmlSlurper().parseText(xml)
+
+            val versioning = metadata.getProperty("versioning") as GPathResult
+            val versions = versioning.getProperty("versions") as GPathResult
+            val versionText = (versions.getProperty("version") as NodeChildren).map { it.toString() }
+
+            if (versionText.contains(version)) {
+                throw RuntimeException("$version has already been released!")
+            }
+        }
+    }
 }
 
-tasks.named("publish") { dependsOn(checkVersion) }
+val publishTask = tasks.named("publish") {
+    dependsOn(checkVersion)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            from(components["java"])
+
+            pom {
+                name = rootProject.name
+                group = rootProject.group
+                description = rootProject.description
+                url = property("url").toString()
+                inceptionYear = "2026"
+
+                licenses {
+                    license {
+                        name = "Apache-2.0"
+                        url = "https://spdx.org/licenses/Apache-2.0.html"
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "leaf"
+                url = uri("https://maven.aoqia.dev/${if (isSnapshot) "snapshots" else "releases"}")
+
+                credentials {
+                    username = providers.gradleProperty("mavenUsername").orNull
+                    password = providers.gradleProperty("mavenPassword").orNull
+                }
+
+                authentication {
+                    create<BasicAuthentication>("basic")
+                }
+            }
+        }
+    }
+
+    signing {
+        isRequired = isCiBuild and !isSnapshot
+
+        val signingKey = providers.gradleProperty("signingKey")
+        val signingPassword = providers.gradleProperty("signingPassword")
+        if (signingKey.isPresent && signingPassword.isPresent) {
+            useInMemoryPgpKeys(signingKey.get(), signingPassword.get())
+        }
+
+        sign(publishing.publications)
+    }
+}

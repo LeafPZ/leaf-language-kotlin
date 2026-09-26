@@ -1,13 +1,15 @@
-# Ignore everything
+# Ignore everything by default
 /*
 
-# Folders
-!/gradle
-!/buildSrc
-!/src
+!/.github
 !/generated
+!/gradle
+!/sample-mod
+!/src
+!/templates
 
-# Files
+!/.cliff.toml
+!/.editorconfig
 !/.gitattributes
 !/.gitignore
 !/build.gradle.kts
@@ -15,14 +17,6 @@
 !/gradlew
 !/gradlew.bat
 !/HEADER
-!/Jenkinsfile
 !/LICENSE
 !/README.md
 !/settings.gradle.kts
-
-!/sample-mod
-!/templates/
-!/.github/
-
-build/
-.gradle/
