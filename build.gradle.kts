@@ -150,14 +150,14 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 tasks.withType<ProcessResources> {
-    inputs.property("id", "leaf-${project.name}")
+    inputs.property("id", "leaf-${rootProject.name}")
     inputs.property("version", "${version}+kotlin.${kotlinVersionText}")
     inputs.property("url", projectUrl)
 
     filesMatching("leaf.mod.json") {
         expand(
             mapOf(
-                "id" to "leaf-${project.name}",
+                "id" to "leaf-${rootProject.name}",
                 "version" to "${version}+kotlin.${kotlinVersionText}",
                 "url" to projectUrl.get(),
             )
