@@ -13,6 +13,7 @@ import java.io.FileNotFoundException
 
 val isCiBuild = providers.environmentVariable("CI").map { it.toBoolean() }.orElse(false).get()
 val isSnapshot = providers.gradleProperty("isSnapshot").map { it.toBoolean() }.orElse(false).get()
+val projectUrl = providers.gradleProperty("url")
 
 val groupUrl = rootProject.group.toString().replace(".", "/")
 
@@ -148,13 +149,18 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 tasks.withType<ProcessResources> {
-    inputs.property("version", project.version.toString())
+    inputs.property("version", "${version}+kotlin.${kotlinVersionText}")
+    inputs.property("url", projectUrl)
 
-    filesMatching("leaf.mod.json") {
-        expand(mapOf(
-            "version" to "${version}+kotlin.${kotlinVersionText}",
-            "url" to property("url").toString(),
-        ))
+    doLast {
+        filesMatching("leaf.mod.json") {
+            expand(
+                mapOf(
+                    "version" to "${version}+kotlin.${kotlinVersionText}",
+                    "url" to projectUrl.get(),
+                )
+            )
+        }
     }
 }
 
@@ -284,7 +290,7 @@ publishing {
                 name = rootProject.name
                 group = rootProject.group
                 description = rootProject.description
-                url = property("url").toString()
+                url = projectUrl.get()
                 inceptionYear = "2026"
 
                 licenses {
