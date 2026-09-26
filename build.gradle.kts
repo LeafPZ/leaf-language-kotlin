@@ -35,6 +35,7 @@ plugins {
     signing
 }
 
+// TODO(leaf): don't use apply syntax if we can help it, transition to plugin block using `kotlin("jvm")`
 apply(plugin = "org.jetbrains.kotlin.jvm")
 
 val libraryVersionsFile = "generated/library_versions.json"
