@@ -1,6 +1,6 @@
 # leaf-language-kotlin
 
-![License](https://img.shields.io/github/license/Electrisoma/leaf-language-kotlin?label=License)
+![License](https://img.shields.io/github/license/LeafPZ/leaf-language-kotlin?label=License)
 (needs maven)
 
 Leaf language module for [Kotlin](https://kotlinlang.org/). Adds support for Kotlin exclusive entrypoints and bundles the Kotlin Stdlib as well as common kotlinx libraries.
