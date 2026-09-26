@@ -2,8 +2,8 @@
 
 leaf-loader = "1.6.1"
 leaf-loom = "0.7.3"
+spotless = "8.10.2"
 zomboid = "42.20.4"
-spotless = "6.19.0"
 
 [libraries]
 
