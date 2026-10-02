@@ -11,6 +11,42 @@ leaf-loader = { module = "dev.aoqia.leaf:loader", version.ref = "leaf-loader" }
 leaf-loader-junit = { module = "dev.aoqia.leaf:loader-junit", version.ref = "leaf-loader" }
 zomboid = { module = "com.theindiestone:zomboid", version.ref = "zomboid" }
 
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core" }
+kotlinx-coroutines-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm" }
+kotlinx-coroutines-jdk8 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8" }
+kotlinx-serialization-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm" }
+kotlinx-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm" }
+kotlinx-serialization-cbor-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm" }
+kotlinx-atomicfu-jvm = { module = "org.jetbrains.kotlinx:atomicfu-jvm" }
+kotlinx-datetime-jvm = { module = "org.jetbrains.kotlinx:kotlinx-datetime-jvm" }
+kotlinx-io-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-io-core-jvm" }
+kotlinx-io-bytestring-jvm = { module = "org.jetbrains.kotlinx:kotlinx-io-bytestring-jvm" }
+
+[bundles]
+
+kotlin = [
+    "kotlin-stdlib",
+    "kotlin-stdlib-jdk8",
+    "kotlin-stdlib-jdk7",
+    "kotlin-reflect",
+
+    "kotlinx-coroutines-core",
+    "kotlinx-coroutines-core-jvm",
+    "kotlinx-coroutines-jdk8",
+    "kotlinx-serialization-core-jvm",
+    "kotlinx-serialization-json-jvm",
+    "kotlinx-serialization-cbor-jvm",
+    "kotlinx-atomicfu-jvm",
+    "kotlinx-datetime-jvm",
+    "kotlinx-io-core-jvm",
+    "kotlinx-io-bytestring-jvm",
+]
+
 [plugins]
 
 leaf-loom = { id = "dev.aoqia.leaf.loom", version.ref = "leaf-loom" }

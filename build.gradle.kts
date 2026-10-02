@@ -41,24 +41,8 @@ apply(plugin = "org.jetbrains.kotlin.jvm")
 val libraryVersionsFile = "generated/library_versions.json"
 val kotlinVersionFile = "generated/kotlin_version.txt"
 
-val kotlinLib = "org.jetbrains.kotlin:kotlin-stdlib"
-val libraries = listOf(
-    kotlinLib,
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk7",
-    "org.jetbrains.kotlin:kotlin-reflect",
-
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core",
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
-    "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8",
-    "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm",
-    "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm",
-    "org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm",
-    "org.jetbrains.kotlinx:atomicfu-jvm",
-    "org.jetbrains.kotlinx:kotlinx-datetime-jvm",
-    "org.jetbrains.kotlinx:kotlinx-io-core-jvm",
-    "org.jetbrains.kotlinx:kotlinx-io-bytestring-jvm"
-)
+val libraries = libs.bundles.kotlin.get().map { "${it.module.group}:${it.module.name}" }
+val kotlinLib = libraries.first()
 
 val parsedVersions = JsonSlurper().parse(file(libraryVersionsFile)) as Map<*, *>
 val libVersions = parsedVersions.mapKeys { it.key.toString() }.mapValues { it.value.toString() }
