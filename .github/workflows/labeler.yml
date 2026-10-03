@@ -1,4 +1,4 @@
-name: Labeler workflow
+name: Labeler
 
 on:
   issues:
@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Try label from title
         # v3.5
-        uses: actions/regex-issue-labeler@ccca1e16fcb66762200e616fc29b57b940c1cb67
+        uses: github/issue-labeler@ccca1e16fcb66762200e616fc29b57b940c1cb67
         with:
           configuration-path: .github/labeler.yml
           not-before: 2026-10-3T00:00:00Z
@@ -27,7 +27,7 @@ jobs:
   labeler-fallback:
     name: Labeler (Fallback)
     needs: labeler
-    if: ${{ always() && needs.labeler.result == 'failure' }}
+    if: ${{ always() && needs.labeler.result != 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
