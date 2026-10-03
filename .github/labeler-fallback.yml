@@ -36,5 +36,7 @@ type/upstream:
   - head-branch: ['^upstream']
 type/feat:
   - head-branch: ['^feat']
+type/fix:
+  - head-branch: ['^fix']
 type/refactor:
   - head-branch: ['^refactor']
