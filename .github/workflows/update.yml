@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   build:
@@ -22,13 +23,12 @@ jobs:
           java-version: 25
           distribution: 'temurin'
           cache: gradle
-      - run: ./gradlew updateVersions -x test -Pleaf.loom.minimalSetup=true
-      - run: ./gradlew processTemplates -x test -Pleaf.loom.minimalSetup=true
+      - run: ./gradlew updateVersions processTemplates -x test -Pleaf.loom.minimalSetup=true
       - name: Create Pull Request
         # v8
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
         with:
           branch: update-versions
-          title: Update versions
+          title: 'chore: update versions'
           author: github-actions <41898282+github-actions[bot]@users.noreply.github.com>
           commit-message: Update versions
