@@ -257,8 +257,8 @@ might try to expand it, in that case escape it.
 ## Bundled libraries
 
 `org.jetbrains.kotlin` namespace:
-- **`kotlin-stdlib`** 2.4.20 [Docs](https://kotlinlang.org/docs/home.html), [API docs](https://kotlinlang.org/api/latest/jvm/stdlib/), [GitHub](https://github.com/JetBrains/kotlin)
-- **`kotlin-reflect`** 2.4.20 [Docs](https://kotlinlang.org/docs/reflection.html), [API docs](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/)
+- **`kotlin-stdlib`** 2.4.21 [Docs](https://kotlinlang.org/docs/home.html), [API docs](https://kotlinlang.org/api/latest/jvm/stdlib/), [GitHub](https://github.com/JetBrains/kotlin)
+- **`kotlin-reflect`** 2.4.21 [Docs](https://kotlinlang.org/docs/reflection.html), [API docs](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/)
 
 `org.jetbrains.kotlinx` namespace:
 - **`kotlinx-coroutines-core`** 1.11.0 [Guide](https://kotlinlang.org/docs/coroutines-guide.html), [API docs](https://kotlin.github.io/kotlinx.coroutines/), [GitHub](https://github.com/Kotlin/kotlinx.coroutines)
