@@ -93,9 +93,8 @@ repositories {
 dependencies {
     zomboid(libs.zomboid)
     implementation(libs.leaf.loader)
-    // TODO(leaf): Uncomment when loader junit is working
-    // testImplementation(libs.leaf.loader.junit)
 
+    testImplementation(libs.leaf.loader.junit)
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 
     if (hasMissingLibVersion) {
