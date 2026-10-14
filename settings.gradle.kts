@@ -23,6 +23,10 @@ pluginManagement {
 		mavenCentral()
 		gradlePluginPortal()
 	}
+
+    plugins {
+        kotlin("jvm") version file("generated/kotlin_version.txt").readText().trim()
+    }
 }
 
 rootProject.name = providers.gradleProperty("name").get()

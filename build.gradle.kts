@@ -20,23 +20,14 @@ val groupUrl = rootProject.group.toString().replace(".", "/")
 val baseVersion = project.version.toString()
 project.version = if (isSnapshot) "$baseVersion-SNAPSHOT" else if (!isCiBuild) "$baseVersion.local" else baseVersion
 
-buildscript {
-    dependencies {
-        val kotlinVersion = file("generated/kotlin_version.txt").readText().trim()
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-    }
-}
-
 plugins {
+    kotlin("jvm")
     alias(libs.plugins.leaf.loom)
     alias(libs.plugins.spotless)
 
     `maven-publish`
     signing
 }
-
-// TODO(leaf): don't use apply syntax if we can help it, transition to plugin block using `kotlin("jvm")`
-apply(plugin = "org.jetbrains.kotlin.jvm")
 
 val libraryVersionsFile = "generated/library_versions.json"
 val kotlinVersionFile = "generated/kotlin_version.txt"
