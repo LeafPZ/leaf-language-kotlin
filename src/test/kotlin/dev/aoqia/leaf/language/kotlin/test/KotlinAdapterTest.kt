@@ -30,42 +30,42 @@ import kotlin.test.Test
 class KotlinAdapterTest {
     @Test
     fun classEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.ClassEntrypoint")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.ClassEntrypoint")
     }
 
     @Test
     fun objectClassEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.ObjectClassEntrypoint")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.ObjectClassEntrypoint")
     }
 
     @Test
     fun objectFunctionEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.ObjectFunctionEntrypoint::init")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.ObjectFunctionEntrypoint::init")
     }
 
     @Test
     fun objectFieldEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.ObjectFieldEntrypoint::initializer")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.ObjectFieldEntrypoint::initializer")
     }
 
     @Test
     fun companionClassEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.CompanionClassEntrypoint\$Companion")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.CompanionClassEntrypoint\$Companion")
     }
 
     @Test
     fun companionFunctionEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.CompanionFunctionEntrypoint\$Companion::init")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.CompanionFunctionEntrypoint\$Companion::init")
     }
 
     @Test
     fun companionFieldEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.CompanionFieldEntrypoint\$Companion::initializer")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.CompanionFieldEntrypoint\$Companion::initializer")
     }
 
     @Test
     fun topLevelEntrypoint() {
-        testEntrypoint("net.fabricmc.language.kotlin.test.entrypoints.TopLevelEntrypointKt::init")
+        testEntrypoint("dev.aoqia.leaf.language.kotlin.test.entrypoints.TopLevelEntrypointKt::init")
     }
 
     private fun testEntrypoint(value: String) {
