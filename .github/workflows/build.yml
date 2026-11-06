@@ -2,9 +2,14 @@ name: Build
 
 on:
   push:
+    # ignoring tags also ignores branches
+    tags-ignore:
+      - '**'
+    branches:
+      - '**'
   pull_request:
     branches:
-      - main
+      - 'main'
 
 permissions:
   contents: read
