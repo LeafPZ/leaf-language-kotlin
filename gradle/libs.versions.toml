@@ -1,7 +1,7 @@
 [versions]
 
-leaf-loader = "1.7.0"
-leaf-loom = "0.7.3"
+leaf-loader = "2.0.0"
+leaf-loom = "1.0.0"
 spotless = "8.10.2"
 zomboid = "42.21.0"
 
