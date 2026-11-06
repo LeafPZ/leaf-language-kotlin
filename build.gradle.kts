@@ -72,15 +72,6 @@ configurations.all {
     }
 }
 
-repositories {
-    maven {
-        name = "Leaf"
-        url = uri("https://maven.aoqia.dev/releases/")
-    }
-
-    mavenLocal()
-}
-
 dependencies {
     zomboid(libs.zomboid)
     implementation(libs.leaf.loader)
