@@ -1,9 +1,9 @@
 [versions]
 
 leaf-loader = "2.0.0"
-leaf-loom = "1.0.0"
+leaf-loom = "1.1.0"
 spotless = "8.10.2"
-zomboid = "42.21.0"
+zomboid = "42.22.2"
 
 [libraries]
 
